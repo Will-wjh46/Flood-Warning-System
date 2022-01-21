@@ -1,3 +1,4 @@
+# WG Created: 20/1/22 Modified: 21/1/22
 # Copyright (C) 2018 Garth N. Wells
 #
 # SPDX-License-Identifier: MIT
@@ -7,3 +8,36 @@ geographical data.
 """
 
 from .utils import sorted_by_key  # noqa
+import numpy as np
+
+def great_circle_distance(a, b):
+    """great_circle_distance(a, b)
+    Function to calculate the great circle distance between two points a and b (latitude, longitude)
+    returns a float containing the great circle distance in km"""
+    r = 6371
+    h = (np.sin(np.radians(b[0] - a[0])/2)**2) + np.cos(np.radians(a[0]))*np.cos(np.radians(b[0]))*(np.sin(np.radians(b[1] - a[1])/2)**2)
+    if h >= 1:
+        h = 0
+    d = 2*r*np.arcsin(h**(0.5))
+    return d
+
+def stations_by_distance(stations, p):
+    """stations_by_distance(stations, p)
+    Function to sort stations by their geographical position in km from p = (latitude, longitude)
+    returns an ordered list of (stations, distance from p)"""
+    tuple_list = []
+    for station in stations: # Iterate through the stations
+        distance = great_circle_distance(p, station.coord) # Calculate great circle distance from p
+        position = 0
+        if len(tuple_list) != 0:
+            n = True
+            while n:
+                if distance > tuple_list[position][1]: # Find correct location in list to insert station
+                    position += 1
+                    if position == len(tuple_list):
+                        n = False
+                else:
+                    n = False
+        tuple_list = tuple_list[:position] + [(station, distance)] + tuple_list[position:] # Insert station at position
+    return tuple_list
+
