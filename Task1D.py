@@ -1,28 +1,32 @@
 print("hello")
 from floodsystem.stationdata import build_station_list
-from floodsystem.geo import rivers_with_station
+from floodsystem.geo import rivers_with_station,stations_by_river
 
 def run():
     '''requirements for task 1D'''
 
     # Build list of stations
     stations = build_station_list()
-    print (stations)
 
-    # list of rivers with a station
-    rivers = [] 
+    rivers = rivers_with_station(stations)
+    stationRiver = stations_by_river(stations)
+
+    num = len(rivers)
+    rivers = sorted(rivers)
+    output = str(num) + " stations. First 10 - " + str(rivers[:10]) + "\n"
+    print (output)
+
+    def part2(river):
+        output = river + " - " + str(sorted(stationRiver[river])) + "\n"
+        print (output)
     
+    part2("River Aire")
+    part2("River Cam")
+    part2("River Thames")
 
-    for station in stations:
-        temp = bool(1)
-        for river in rivers:
-            if station.river == river:
-                temp = 0
-        if temp == 1:
-            rivers.append(station.river)
 
-    print (rivers)
+
+
 if __name__ == "__main__":
-    print("*** Task 1A: CUED Part IA Flood Warning System ***")
+    print("*** Task 1D: CUED Part IA Flood Warning System ***")
     run()
-run()

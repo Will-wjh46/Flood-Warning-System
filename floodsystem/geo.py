@@ -41,3 +41,26 @@ def stations_by_distance(stations, p):
         tuple_list = tuple_list[:position] + [(station, distance)] + tuple_list[position:] # Insert station at position
     return tuple_list
 
+def rivers_with_station(stations):
+    output = []
+    
+    for station in stations:
+        temp = bool(1)
+        for river in output:
+            if station.river == river:
+                temp = 0
+        if temp == 1:
+            output.append(station.river)
+    return output
+
+def stations_by_river(stations):
+    output = {}
+    
+    rivers = rivers_with_station(stations)
+    for river in rivers:
+        temp = []
+        for station in stations:
+            if river == station.river:
+                temp.append(station.name)
+        output[river] = temp
+    return output
