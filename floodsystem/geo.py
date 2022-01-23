@@ -42,8 +42,11 @@ def stations_by_distance(stations, p):
     return tuple_list
 
 def rivers_with_station(stations):
-    output = []
+    '''rivers_with_station(stations)
+    Function to create list of all rivers with a monitering staion'''
     
+    output = []
+    #searches through stations to find rivers not yet included in the list
     for station in stations:
         temp = bool(1)
         for river in output:
@@ -54,6 +57,9 @@ def rivers_with_station(stations):
     return output
 
 def stations_by_river(stations):
+    '''stations_by_river(stations)
+    sorts stations by which river they are situated on
+    outputs dictionary with the key as the river name and the item as a list of stations on it'''
     output = {}
     
     rivers = rivers_with_station(stations)
@@ -64,3 +70,30 @@ def stations_by_river(stations):
                 temp.append(station.name)
         output[river] = temp
     return output
+
+#create list containing the river and how many stations in sub arrays.
+def rivers_by_station_number(stations, N):
+    '''rivers_by_station_number(stations, N)
+    sorts rivers by how many stations are situated on them
+    output in form [river,number of stations] in list'''
+    rivers = rivers_with_station(stations)
+    stationsLoc = stations_by_river(stations)
+    output = []
+    for river in rivers:
+        output.append([river,int(len(stationsLoc[river]))])
+    
+    #sort by number of stations
+    def takeSecond(elem):
+        '''Takes the second element of an array'''
+        return elem[1]
+    output.sort(key=takeSecond,reverse=True)
+
+    #take correct number of values
+    cutoff = output[N-1][1]
+    x = 0
+    newOut = []
+    while output[x][1] >= cutoff:
+        newOut.append(output[x])
+        x += 1
+
+    return newOut
