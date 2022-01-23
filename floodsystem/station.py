@@ -40,10 +40,14 @@ class MonitoringStation:
         return d
 
     def typical_range_consistent(self):
+        '''typical_range_consistent(self)
+        checks if a station has an inconsistant typical range
+        outupts true if the value is consistent or false if it is not'''
+
         if self.typical_range == None:
-           return False
+            return False
         elif (self.typical_range[1]-self.typical_range[0]) < 0:
-           return False
+            return False
         else:
             return True
 
@@ -53,6 +57,6 @@ def inconsistent_typical_range_stations(stations):
     returns list of stations'''
     output = []
     for station in stations:
-        if station.typical_range_consistent == False:
+        if station.typical_range_consistent() == False:
             output.append(station)
     return output
