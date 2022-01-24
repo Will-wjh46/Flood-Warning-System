@@ -41,6 +41,17 @@ def stations_by_distance(stations, p):
         tuple_list = tuple_list[:position] + [(station, distance)] + tuple_list[position:] # Insert station at position
     return tuple_list
 
+def stations_within_radius(stations, centre, r):
+    """stations_within_radius(stations, centre, r)
+    Function to return a sub list of monitering stations from 'stations' that are less than a distance r from the centre
+    returns a list of MoniteringStations objects"""
+    output = []
+    for station in stations: # Iterate through the stations
+        distance = great_circle_distance(centre, station.coord) # Calculate great circle distance from centre
+        if distance < r: # Checks if the distance is within the required radius
+            output.append(station) # Adds the station to the list if it passes the check
+    return output
+
 def rivers_with_station(stations):
     '''rivers_with_station(stations)
     Function to create list of all rivers with a monitering staion'''
