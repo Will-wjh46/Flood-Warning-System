@@ -36,3 +36,24 @@ def test_stations_within_radius():
         distance = geo.great_circle_distance(centre, station.coord)
         assert distance < r
 
+def test_rivers_with_station():
+    '''Test function - rivers_with_station'''
+    stations = build_station_list()
+    output = geo.rivers_with_station(stations)
+    for x in range(0,len(output)):
+        for y in range(0,len(output)):
+            assert output[x] != output[y] or x == y
+
+def test_stations_by_river():
+    '''Test function - stations_by_river'''
+    stations = build_station_list()
+    output = geo.stations_by_river(stations)
+    for item in output:
+        assert len(item[1]) != 0
+
+def test_rivers_by_station_number():
+    '''Test function - rivers_by_station_number'''
+    stations = build_station_list()
+    for N in range(1,15):
+        output = geo.rivers_by_station_number(stations, N)
+        assert len(output) >= N
