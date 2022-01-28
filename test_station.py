@@ -39,7 +39,3 @@ def test_relative_water_level():
     update_water_levels(stations)
     for station in stations:
         output = station.relative_water_level()
-        print(output)
-        print()
-
-test_relative_water_level()
