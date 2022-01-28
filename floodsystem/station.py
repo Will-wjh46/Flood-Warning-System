@@ -51,6 +51,22 @@ class MonitoringStation:
         else:
             return True
 
+    def relative_water_level(self):
+        '''relative_water_level(self)
+        calculates fractional value of water level compared to normal range
+        outputs float or None for invalid inputs'''
+
+        if (self.typical_range_consistent()) == False or self.latest_level == None:
+            return None
+        else:
+            low = self.typical_range[0]
+            high = self.typical_range[1]
+            fraction = (self.latest_level-low)/(high-low)
+            return(fraction)
+
+
+
+
 def inconsistent_typical_range_stations(stations):
     '''inconsistent_typical_range_stations(stations)
     finds stations with inconsistent typical ranges
