@@ -44,3 +44,5 @@ def plot_water_levels(input, mode="together"):
     if mode == "together":
         plt.tight_layout()  # This makes sure plot does not cut off date labels
         plt.show()
+
+    return "Plot Complete"
