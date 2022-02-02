@@ -27,7 +27,7 @@ def run():
         dates, levels = datafetcher.fetch_measure_levels(station.measure_id, dt=timedelta(days=dt))
         data_list.append([station, dates, levels])
     
-    plot.plot_water_level_with_fit(data_list, p, "together")
+    plot.plot_water_level_with_fit(data_list, p)
     
 
 
