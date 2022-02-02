@@ -8,6 +8,9 @@ from datetime import timedelta
 def run():
     """Requirements for Task 2E"""
 
+    N = 5 # Number of stations to plot
+    dt = 10 # Number of days into the past to plot
+
     # Build list of stations
     stations = stationdata.build_station_list()
     stationdata.update_water_levels(stations)
@@ -18,16 +21,12 @@ def run():
         if station.typical_range_consistent() == True and station.name != "Letcombe Bassett":
             consistent_stations.append(station)
 
-    N = 5 # Number of stations to plot
-    dt = 10 # Number of days into the past to plot
-
     highest_stations = flood.stations_highest_rel_level(consistent_stations, N)
     data_list = []
     for station in highest_stations:
         dates, levels = datafetcher.fetch_measure_levels(station.measure_id, dt=timedelta(days=dt))
         data_list.append([station, dates, levels])
-
-    print(len(data_list))
+        
     plot.plot_water_levels(data_list, "together")
 
 
