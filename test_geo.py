@@ -1,4 +1,4 @@
-# WG Created: 24/1/22 Modified: 24/1/22
+# WG Created: 24/1/22 Modified: 1/2/22
 # Tests for the modules in geo.py
 
 
@@ -18,6 +18,7 @@ def test_great_circle_distance():
 
 
 def test_stations_by_distance():
+    """Test the sort stations by distance function"""
     stations = build_station_list()
 
     p = (52.2053, 0.1218)
@@ -28,6 +29,7 @@ def test_stations_by_distance():
         assert sorted_stations[i][1] <= sorted_stations[i+1][1]
 
 def test_stations_within_radius():
+    """Test the return stations within a radius function"""
     stations = build_station_list()
     centre = (52.2053, 0.1218)
     r = 50 # in km
