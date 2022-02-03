@@ -1,6 +1,7 @@
 # WG Created: 1/2/22 Modified:3/2/22
 # Submodule to create plots of data created as part of Task 2E
 
+from turtle import color
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
@@ -32,9 +33,9 @@ def plot_water_levels(input, mode="together"):
             plt.subplot(1, number_of_plots, i+1)
 
         # Plot data
-        plt.plot(dates, levels, label = "Water level")
-        plt.axhline(y = station.typical_range[0], color = 'g', linestyle = 'dashdot', label = "Typical low level")
-        plt.axhline(y = station.typical_range[1], color = 'r', linestyle = 'dashdot', label = "Typical high level")
+        plt.plot(dates, levels, label = "Water level", color = 'blue')
+        plt.axhline(y = station.typical_range[0], color = 'green', linestyle = 'dashdot', label = "Typical low level")
+        plt.axhline(y = station.typical_range[1], color = 'red', linestyle = 'dashdot', label = "Typical high level")
 
         # Add axis labels, rotate date labels, add plot title and add a legend
         plt.xlabel('date')
@@ -80,17 +81,17 @@ def plot_water_level_with_fit(input, p, mode="together"):
             plt.subplot(1, number_of_plots, i+1)
 
         poly, d0 = analysis.polyfit(dates, levels, p)
-
+        
         # Plot polynomial fit at 30 points along interval
         x = matplotlib.dates.date2num(dates)
         x1 = np.linspace(x[0], x[-1], 40)
         x2 = np.linspace(x[0] - d0, x[-1] - d0, 40)
-        plt.plot(x1, poly(x2), label = "Best fit polynomial")
+        plt.plot(x1, poly(x2), label = "Best fit polynomial", color = "orange")
 
         # Plot actual data
-        plt.plot(dates, levels, label = "Water level")
-        plt.axhline(y = station.typical_range[0], color = 'g', linestyle = 'dashdot', label = "Typical low level")
-        plt.axhline(y = station.typical_range[1], color = 'r', linestyle = 'dashdot', label = "Typical high level")
+        plt.plot(dates, levels, label = "Water level", color = "blue")
+        plt.axhline(y = station.typical_range[0], color = 'green', linestyle = 'dashdot', label = "Typical low level")
+        plt.axhline(y = station.typical_range[1], color = 'red', linestyle = 'dashdot', label = "Typical high level")
 
         # Add axis labels, rotate date labels, add plot title and add a legend
         plt.xlabel('date')

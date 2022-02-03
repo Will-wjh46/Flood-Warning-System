@@ -17,3 +17,18 @@ def test_plot_water_levels():
     plot.plot_water_levels(data_list)
 
     assert plot.plot_water_levels(data_list) == "Plot Complete"
+
+def test_plot_water_level_with_fit():
+
+    # Build list of stations
+    stations = stationdata.build_station_list()
+    stationdata.update_water_levels(stations)
+
+    dt = 2 # Number of days into the past to plot
+    p = 4
+    dates, levels = datafetcher.fetch_measure_levels(stations[0].measure_id, dt=timedelta(days=dt))
+    data_list = [[stations[0], dates, levels]]
+    
+    plot.plot_water_level_with_fit(data_list, p)
+
+    assert plot.plot_water_levels(data_list) == "Plot Complete"
