@@ -1,14 +1,19 @@
-# WG Created: 2/2/22 Modified: 2/2/22
+# WG Created: 2/2/22 Modified: 3/2/22
 # Task 2G
 
 """
 Criteria for flood warnings:
+
+Each monitering staion is marked as:
 
 Severe: More than 2x the typical high value for a station for at least the last two days
 High: More than 1.5x the typical high value for a station for at least two days
 Moderate: More than 1x the typical high value for a station for at least two days
 Low: More than 0.9x the typical high value for a station for at lest two days
 
+If a town has a single station, then the town will have the warning level of that station.
+If a town has multiple stations, then the town will have the warning level of the highest level station, or
+if a town has multiple of its most riskiest stations, then the town will have a warning level one greater.
 """
 
 from floodsystem import datafetcher, stationdata, flood
@@ -36,8 +41,7 @@ def run():
     highest_stations = flood.stations_highest_rel_level(consistent_stations, len(consistent_stations))
     dt = 2
     data_list = []
-    for station in highest_stations:
-        print(station.name)
+    for station in highest_stations[0:100]:
         try:
             dates, levels = datafetcher.fetch_measure_levels(station.measure_id, dt=timedelta(days=dt))
         except:
@@ -102,21 +106,31 @@ def run():
             check_high = False
         i += 1
 
-    print("The severe stations are:")
+    # Sort stations into towns
+    towns_with_warnings = {} 
     for station in severe_stations:
-        print(station.name)
-
-    print("The high stations are:")
+        if station.town not in towns_with_warnings:
+            towns_with_warnings[station.town] = "severe"
     for station in high_stations:
-        print(station.name)
-
-    print("The moderate stations are:")
+        if station.town not in towns_with_warnings:
+            towns_with_warnings[station.town] = "high"
+        else:
+            towns_with_warnings[station.town] = "severe"
     for station in moderate_stations:
-        print(station.name)
-
-    print("The low stations are:")
+        if station.town not in towns_with_warnings:
+            towns_with_warnings[station.town] = "moderate"
+        else:
+            towns_with_warnings[station.town] = "high"
     for station in low_stations:
-        print(station.name)
+        if station.town not in towns_with_warnings:
+            towns_with_warnings[station.town] = "low"
+        else:
+            towns_with_warnings[station.town] = "moderate"
+    
+    for town in towns_with_warnings:
+        print("{0} warning level in {1}".format(towns_with_warnings[town], town))
+    
+
 
 if __name__ == "__main__":
     print("*** Task 2G: CUED Part IA Flood Warning System ***")

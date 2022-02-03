@@ -1,11 +1,11 @@
-# WG Created: 1/2/22 Modified:2/2/22
+# WG Created: 1/2/22 Modified:3/2/22
 # Submodule to create plots of data created as part of Task 2E
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from floodsystem import analysis
-from bokeh.plotting import figure, show
+#from bokeh.plotting import figure, show
 
 def plot_water_levels(input, mode="together"):
     """Function to plot the water levels at specific monitering stations over time
