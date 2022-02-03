@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from floodsystem import analysis
+from bokeh.plotting import figure, show
 
 def plot_water_levels(input, mode="together"):
     """Function to plot the water levels at specific monitering stations over time
@@ -107,3 +108,41 @@ def plot_water_level_with_fit(input, p, mode="together"):
         plt.show()
 
     return "Plot Complete"
+
+def plot_relative_data_using_bohek(input):
+    """Function to plot the water levels at specific monitering stations over time
+    takes a single input which is a list of up to 6 plots to make
+    each item in the list should be a list of [station, dates, levels]
+    station must be of the class "MoiteringStation"
+    dates must be a list of datetime objects
+    levels must a list that correspond to each item in dates
+    optional additional parameter "mode" to define whether to group the plots into the same window or not
+    does not return anything but opens a graph as a separate window"""
+    
+    colours = ["red", "blue", "green", "yellow", "black", "pink"]
+    # Calculates how many plots are needed
+    number_of_plots = len(input)
+    if number_of_plots > 6:
+        print("You can only enter a maximum of 6 plots at once. The first 6 have been plotted.")
+        number_of_plots = 6
+
+    # create a new plot with a title and axis labels
+    p = figure(title="Water levels", x_axis_label="date", y_axis_label="water level (m)")
+
+    for i in range(number_of_plots): # Get data from input parameter
+        station = input[i][0]
+        dates = input[i][1]
+        levels = input[i][2]
+
+        # add a line renderer with legend and line thickness
+        p.line(dates, levels, legend_label="Water level at {0}".format(station.name), line_width=2, line_color = colours[i])
+        p.line(dates, station.typical_range[1], legend_label="Typical high level at {0}".format(station.name), line_width=2, line_color = colours[i], line_dash = "dotdash")
+        p.line(dates, station.typical_range[0], legend_label="Typical low level at {0}".format(station.name), line_width=2, line_color = colours[i], line_dash = "dotdash")
+
+        # Add axis labels, rotate date labels, add plot title and add a legend
+        #plt.xticks(rotation=45)
+        #plt.title(station.name)
+        #plt.legend()
+
+    # show the results
+    show(p)
